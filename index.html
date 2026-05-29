@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داوای هاوسەرگیری</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #120c1f, #3b172d, #120c1f);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* دروستکردنی ئەستێرەکان لە باکگراوند */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: blink 2s infinite ease-in-out;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ستایلی نوێی کارتەکە - شوشەیی ناوازە */
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 45px 35px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            max-width: 440px;
+            width: 90%;
+            z-index: 999;
+            position: relative;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* دوگمەی مۆدێرنی مۆسیقا */
+        .audio-control {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: white;
+            transition: all 0.3s ease;
+            user-select: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .audio-control:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+
+        .playing {
+            animation: rotateMusic 4s linear infinite;
+        }
+
+        @keyframes rotateMusic {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .icon-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .icon {
+            font-size: 60px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        }
+
+        h2 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 26px;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        p {
+            color: #e0dbe8;
+            font-size: 16px;
+            margin-bottom: 35px;
+            line-height: 1.8;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px;
+            width: 100%;
+        }
+
+        button {
+            padding: 13px 38px;
+            font-size: 16px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff2a74, #ff5e62);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 42, 116, 0.4);
+        }
+
+        .btn-no {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #eee;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: absolute;
+            transition: all 0.2s ease;
+        }
+
+        .celebration-item {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 1000;
+            animation: fall 3.5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(100vh) scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars" id="starsContainer"></div>
+
+    <audio id="bgMusic" src="https://raw.githubusercontent.com/A7madAHadi/a/main/YTDown_YouTube_Ahmad-Xalil-Wafa-Video-Clip_Media_4vy4aBwq6sU_007_128k.mp3" loop autoplay preload="auto"></audio>
+
+    <div class="card">
+        <div class="audio-control playing" id="audioBtn" onclick="toggleMusic()">🎵</div>
+
+        <div id="cardContent">
+            <div class="icon-container">
+                <div class="icon">💌</div>
+            </div>
+            <h2>نامەیەکی تایبەت</h2>
+            <p>سڵاو دینی...<br>نامەیەکی کورت لە دڵمەوە بۆ تۆ، تکایە بیکەرەوە.</p>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="nextStep1()">بیکەرەوە</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const audioBtn = document.getElementById('audioBtn');
+
+        // دروستکردنی ئەستێرەکان
+        const starsContainer = document.getElementById('starsContainer');
+        for (let i = 0; i < 60; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        document.body.addEventListener('click', autoPlayFallback, { once: true });
+        document.body.addEventListener('touchstart', autoPlayFallback, { once: true });
+
+        function autoPlayFallback() {
+            if (music.paused) {
+                music.play().then(() => {
+                    audioBtn.classList.add('playing');
+                    audioBtn.innerText = '🎵';
+                });
+            }
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                audioBtn.classList.add('playing');
+                audioBtn.innerText = '🎵';
+            } else {
+                music.pause();
+                audioBtn.classList.remove('playing');
+                audioBtn.innerText = '🔇';
+            }
+        }
+
+        // قۆناغی دووەم: نامە درێژەکە
+        function nextStep1() {
+            if (music.paused) { music.play(); audioBtn.classList.add('playing'); audioBtn.innerText = '🎵'; }
+
+            document.getElementById('cardContent').innerHTML = `
+                <div class="icon-container">
+                    <div class="icon">✨📜</div>
+                </div>
+                <h2>بۆ دەستپێکی ژیانێکی نوێ...</h2>
+                <p>لەو ڕۆژەوەی تۆ هاتوویەتە ژیانمەوە، هەموو شتێک بەلای منەوە مانایەکی تری هەیە. تۆ جوانیی بە تەمەنم بەخشیوە و دڵنیام پێکەوە دەتوانین قەشەنگترین داهاتوو دروست بکەین.</p>
+                <div class="btn-container">
+                    <button class="btn-yes" onclick="nextStep2()">هەنگاوی داهاتوو ✨</button>
+                </div>
+            `;
+        }
+
+        // قۆناغی سێیەم: داواکارییەکە
+        function nextStep2() {
+            document.getElementById('cardContent').innerHTML = `
+                <div class="icon-container">
+                    <div class="icon">🤍💍</div>
+                </div>
+                <h2>دینی، دەبیت بە هاوسەری ژیانم؟</h2>
+                <p>پێش ئەوەی وەڵام بدەیتەوە، باش بیر بکەرەوە! چونکە دڵم بڕیاری خۆی داوە...</p>
+                <div class="btn-container" id="quizContainer">
+                    <button class="btn-yes" onclick="accepted()">بەڵێ</button>
+                    <button class="btn-no" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">نەخێر</button>
+                </div>
+            `;
+        }
+
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const container = document.getElementById('quizContainer');
+            
+            const maxWidth = container.clientWidth - noBtn.clientWidth;
+            const maxHeight = 130;
+            
+            const randomX = Math.floor(Math.random() * maxWidth) - (maxWidth / 2);
+            const randomY = Math.floor(Math.random() * maxHeight) - (maxHeight / 2);
+            
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // قۆناغی کۆتایی: بەڵێن و سوپاسگوزاری
+        function accepted() {
+            if(music.paused) { music.play(); audioBtn.classList.add('playing'); audioBtn.innerText = '🎵'; }
+            document.getElementById('cardContent').innerHTML = `
+                <div class="icon-container">
+                    <div class="icon">💖✨</div>
+                </div>
+                <h2>سوپاس بۆ بوونت...</h2>
+                <p>بەڵێن بێت نەهێڵم پەشیمان ببیتەوە 💍🌸</p>
+            `;
+            setInterval(createCelebrationItem, 150);
+        }
+
+        function createCelebrationItem() {
+            const items = ['❤️', '💖', '✨', '🌸', '💕'];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+            
+            const element = document.createElement('div');
+            element.classList.add('celebration-item');
+            element.innerHTML = randomItem;
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.fontSize = Math.random() * 15 + 15 + 'px';
+            element.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(element);
+
+            setTimeout(() => { element.remove(); }, 3500);
+        }
+    </script>
+</body>
+</html>
