@@ -22,7 +22,6 @@
             position: relative;
         }
 
-        /* دروستکردنی ئەستێرەکان لە باکگراوند */
         .stars {
             position: absolute;
             top: 0;
@@ -45,7 +44,6 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* ستایلی نوێی کارتەکە - شوشەیی ناوازە */
         .card {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(15px);
@@ -67,7 +65,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* دوگمەی مۆدێرنی مۆسیقا */
         .audio-control {
             position: absolute;
             top: 18px;
@@ -198,7 +195,8 @@
 
     <div class="stars" id="starsContainer"></div>
 
-    <audio id="bgMusic" src="https://raw.githubusercontent.com/A7madAHadi/a/main/YTDown_YouTube_Ahmad-Xalil-Wafa-Video-Clip_Media_4vy4aBwq6sU_007_128k.mp3" loop autoplay preload="auto"></audio>
+    <!-- گۆرانییە نوێیەکەت لێرە لەگەڵ فایلی MP3ەکە بەستراوەتەوە -->
+    <audio id="bgMusic" src="ewini be kota.mp3" loop autoplay preload="auto"></audio>
 
     <div class="card">
         <div class="audio-control playing" id="audioBtn" onclick="toggleMusic()">🎵</div>
@@ -219,7 +217,6 @@
         const music = document.getElementById('bgMusic');
         const audioBtn = document.getElementById('audioBtn');
 
-        // دروستکردنی ئەستێرەکان
         const starsContainer = document.getElementById('starsContainer');
         for (let i = 0; i < 60; i++) {
             const star = document.createElement('div');
@@ -256,7 +253,6 @@
             }
         }
 
-        // قۆناغی دووەم: نامە درێژەکە
         function nextStep1() {
             if (music.paused) { music.play(); audioBtn.classList.add('playing'); audioBtn.innerText = '🎵'; }
 
@@ -264,15 +260,14 @@
                 <div class="icon-container">
                     <div class="icon">✨📜</div>
                 </div>
-                <h2>بۆ دەستپێکی ژیانێکی نوێ...</h2>
-                <p>لەو ڕۆژەوەی تۆ هاتوویەتە ژیانمەوە، هەموو شتێک بەلای منەوە مانایەکی تری هەیە. تۆ جوانیی بە تەمەنم بەخشیوە و دڵنیام پێکەوە دەتوانین قەشەنگترین داهاتوو دروست بکەین.</p>
+                <h2>بۆ تۆ، کە هەموو دنیای منی...</h2>
+                <p>تۆ تەنها سەرەتایەک نیت بۆ ژیانم، تۆ جوانترین پارچەی تەمەنی منیت. لەو ڕۆژەوەی هاتووی، دڵم ئارامترە و داهاتووم ڕووناکترە. هەمیشە خەونی من ئەوە بووە کە قەشەنگترین چیرۆکی عەشق پێکەوە بنووسینەوە...</p>
                 <div class="btn-container">
                     <button class="btn-yes" onclick="nextStep2()">هەنگاوی داهاتوو ✨</button>
                 </div>
             `;
         }
 
-        // قۆناغی سێیەم: داواکارییەکە
         function nextStep2() {
             document.getElementById('cardContent').innerHTML = `
                 <div class="icon-container">
@@ -300,7 +295,6 @@
             noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        // قۆناغی کۆتایی: بەڵێن و سوپاسگوزاری
         function accepted() {
             if(music.paused) { music.play(); audioBtn.classList.add('playing'); audioBtn.innerText = '🎵'; }
             document.getElementById('cardContent').innerHTML = `
