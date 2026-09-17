@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>داوای هاوسەرگیری</title>
+    <title>بۆ ئازیزی دڵم</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Vazirmatn', sans-serif;
         }
 
         body {
@@ -17,12 +19,13 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #120c1f, #3b172d, #120c1f);
+            background: radial-gradient(circle at center, #2d0b1e 0%, #0f040a 100%);
             overflow: hidden;
             position: relative;
         }
 
-        .stars {
+        /* پاشخانی بارینی دڵەکان */
+        .hearts-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -32,183 +35,172 @@
             z-index: 1;
         }
 
-        .star {
+        .falling-heart {
             position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: blink 2s infinite ease-in-out;
+            color: rgba(255, 75, 110, 0.35);
+            font-size: 20px;
+            animation: fallAndRotate 6s linear infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+        @keyframes fallAndRotate {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
         }
 
+        /* کارتی شوشەیی */
         .card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 45px 35px;
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            padding: 50px 35px 40px;
+            border-radius: 30px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.05);
-            max-width: 440px;
-            width: 90%;
-            z-index: 999;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 105, 180, 0.1);
+            max-width: 450px;
+            width: 88%;
+            z-index: 10;
             position: relative;
-            animation: fadeIn 0.8s ease-out;
+            transition: all 0.5s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #ff4b6e, transparent, #ff85a2);
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.3;
         }
 
+        /* کۆنتڕۆڵی دەنگ */
         .audio-control {
             position: absolute;
-            top: 18px;
-            right: 18px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 42px;
-            height: 42px;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
             color: white;
             transition: all 0.3s ease;
-            user-select: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(255, 75, 110, 0.2);
         }
 
         .audio-control:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(15deg);
+            background: rgba(255, 75, 110, 0.3);
         }
 
-        .playing {
-            animation: rotateMusic 4s linear infinite;
-        }
-
-        @keyframes rotateMusic {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .icon-container {
-            position: relative;
+        /* ئایکۆنی لێدانی دڵ */
+        .heart-icon {
+            font-size: 70px;
             display: inline-block;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
+            margin-bottom: 15px;
+            animation: heartbeat 1.4s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px rgba(255, 75, 110, 0.6));
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .icon {
-            font-size: 60px;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.18); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.18); }
+            70% { transform: scale(1); }
         }
 
         h2 {
-            color: #fff;
+            color: #ffffff;
             margin-bottom: 15px;
-            font-size: 26px;
-            font-weight: 600;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         p {
-            color: #e0dbe8;
-            font-size: 16px;
+            color: #f1d6e3;
+            font-size: 17px;
             margin-bottom: 35px;
-            line-height: 1.8;
-            text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            line-height: 1.9;
+            font-weight: 300;
         }
 
+        /* دوگمەکان */
         .btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             position: relative;
             min-height: 60px;
-            width: 100%;
         }
 
         button {
-            padding: 13px 38px;
-            font-size: 16px;
+            padding: 14px 38px;
+            font-size: 17px;
             border: none;
-            border-radius: 14px;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .btn-yes {
-            background: linear-gradient(45deg, #ff2a74, #ff5e62);
+            background: linear-gradient(135deg, #ff4b6e 0%, #ff758c 100%);
             color: white;
+            box-shadow: 0 10px 25px rgba(255, 75, 110, 0.4);
         }
 
         .btn-yes:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(255, 42, 116, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 75, 110, 0.6);
         }
 
         .btn-no {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #eee;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: #e0d0d8;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             position: absolute;
-            transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
         }
 
-        .celebration-item {
+        /* ئاهەنگگێڕانی وەڵامی بەڵێ */
+        .sparkle {
             position: absolute;
             pointer-events: none;
-            opacity: 0;
-            z-index: 1000;
-            animation: fall 3.5s linear infinite;
+            animation: popAndFade 2s ease-out forwards;
         }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(100vh) scale(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.5) rotate(360deg);
-                opacity: 0;
-            }
+        @keyframes popAndFade {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="stars" id="starsContainer"></div>
+    <div class="hearts-bg" id="heartsBg"></div>
 
-    <!-- گۆرانییە نوێیەکەت لێرە لەگەڵ فایلی MP3ەکە بەستراوەتەوە -->
     <audio id="bgMusic" src="ewini be kota.mp3" loop autoplay preload="auto"></audio>
 
     <div class="card">
-        <div class="audio-control playing" id="audioBtn" onclick="toggleMusic()">🎵</div>
+        <div class="audio-control" id="audioBtn" onclick="toggleMusic()">🎵</div>
 
         <div id="cardContent">
-            <div class="icon-container">
-                <div class="icon">💌</div>
-            </div>
+            <div class="heart-icon">💖</div>
             <h2>نامەیەکی تایبەت</h2>
             <p>سڵاو دینی...<br>نامەیەکی کورت لە دڵمەوە بۆ تۆ، تکایە بیکەرەوە.</p>
             <div class="btn-container">
-                <button class="btn-yes" onclick="nextStep1()">بیکەرەوە</button>
+                <button class="btn-yes" onclick="nextStep1()">بیکەرەوە ✨</button>
             </div>
         </div>
     </div>
@@ -217,66 +209,58 @@
         const music = document.getElementById('bgMusic');
         const audioBtn = document.getElementById('audioBtn');
 
-        const starsContainer = document.getElementById('starsContainer');
-        for (let i = 0; i < 60; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.width = Math.random() * 3 + 'px';
-            star.style.height = star.style.width;
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.top = Math.random() * 100 + 'vh';
-            star.style.animationDelay = Math.random() * 2 + 's';
-            starsContainer.appendChild(star);
+        // دروستکردنی بارینی دڵەکان
+        const heartsBg = document.getElementById('heartsBg');
+        const heartIcons = ['🌸', '💖', '✨', '💕', '🌷'];
+        for (let i = 0; i < 30; i++) {
+            const h = document.createElement('div');
+            h.classList.add('falling-heart');
+            h.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            h.style.animationDelay = Math.random() * 5 + 's';
+            h.style.fontSize = (Math.random() * 12 + 16) + 'px';
+            heartsBg.appendChild(h);
         }
 
-        document.body.addEventListener('click', autoPlayFallback, { once: true });
-        document.body.addEventListener('touchstart', autoPlayFallback, { once: true });
-
-        function autoPlayFallback() {
+        // کارکردنی دەنگ بە کلیک
+        document.body.addEventListener('click', () => {
             if (music.paused) {
-                music.play().then(() => {
-                    audioBtn.classList.add('playing');
-                    audioBtn.innerText = '🎵';
-                });
+                music.play();
+                audioBtn.innerText = '🎵';
             }
-        }
+        }, { once: true });
 
         function toggleMusic() {
             if (music.paused) {
                 music.play();
-                audioBtn.classList.add('playing');
                 audioBtn.innerText = '🎵';
             } else {
                 music.pause();
-                audioBtn.classList.remove('playing');
                 audioBtn.innerText = '🔇';
             }
         }
 
         function nextStep1() {
-            if (music.paused) { music.play(); audioBtn.classList.add('playing'); audioBtn.innerText = '🎵'; }
+            if (music.paused) music.play();
 
             document.getElementById('cardContent').innerHTML = `
-                <div class="icon-container">
-                    <div class="icon">✨📜</div>
-                </div>
+                <div class="heart-icon">📜</div>
                 <h2>بۆ تۆ، کە هەموو دنیای منی...</h2>
                 <p>تۆ تەنها سەرەتایەک نیت بۆ ژیانم، تۆ جوانترین پارچەی تەمەنی منیت. لەو ڕۆژەوەی هاتووی، دڵم ئارامترە و داهاتووم ڕووناکترە. هەمیشە خەونی من ئەوە بووە کە قەشەنگترین چیرۆکی عەشق پێکەوە بنووسینەوە...</p>
                 <div class="btn-container">
-                    <button class="btn-yes" onclick="nextStep2()">هەنگاوی داهاتوو ✨</button>
+                    <button class="btn-yes" onclick="nextStep2()">هەنگاوی داهاتوو 💍</button>
                 </div>
             `;
         }
 
         function nextStep2() {
             document.getElementById('cardContent').innerHTML = `
-                <div class="icon-container">
-                    <div class="icon">🤍💍</div>
-                </div>
+                <div class="heart-icon">💍</div>
                 <h2>دینی، دەبیت بە هاوسەری ژیانم؟</h2>
                 <p>پێش ئەوەی وەڵام بدەیتەوە، باش بیر بکەرەوە! چونکە دڵم بڕیاری خۆی داوە...</p>
                 <div class="btn-container" id="quizContainer">
-                    <button class="btn-yes" onclick="accepted()">بەڵێ</button>
+                    <button class="btn-yes" onclick="accepted()">بەڵێ 💖</button>
                     <button class="btn-no" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">نەخێر</button>
                 </div>
             `;
@@ -287,7 +271,7 @@
             const container = document.getElementById('quizContainer');
             
             const maxWidth = container.clientWidth - noBtn.clientWidth;
-            const maxHeight = 130;
+            const maxHeight = 120;
             
             const randomX = Math.floor(Math.random() * maxWidth) - (maxWidth / 2);
             const randomY = Math.floor(Math.random() * maxHeight) - (maxHeight / 2);
@@ -296,30 +280,36 @@
         }
 
         function accepted() {
-            if(music.paused) { music.play(); audioBtn.classList.add('playing'); audioBtn.innerText = '🎵'; }
+            if (music.paused) music.play();
+            
             document.getElementById('cardContent').innerHTML = `
-                <div class="icon-container">
-                    <div class="icon">💖✨</div>
-                </div>
+                <div class="heart-icon">👑</div>
                 <h2>سوپاس بۆ بوونت...</h2>
                 <p>بەڵێن بێت نەهێڵم پەشیمان ببیتەوە 💍🌸</p>
             `;
-            setInterval(createCelebrationItem, 150);
+
+            // ئەنیمەیشنی بڵاوبوونەوەی دڵەکان لە سەرتاسەری لاپەڕەکە
+            for(let i = 0; i < 50; i++) {
+                setTimeout(createSparkle, i * 40);
+            }
         }
 
-        function createCelebrationItem() {
-            const items = ['❤️', '💖', '✨', '🌸', '💕'];
-            const randomItem = items[Math.floor(Math.random() * items.length)];
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.innerText = ['💖', '🌸', '✨', '💍', '❤️'][Math.floor(Math.random() * 5)];
             
-            const element = document.createElement('div');
-            element.classList.add('celebration-item');
-            element.innerHTML = randomItem;
-            element.style.left = Math.random() * 100 + 'vw';
-            element.style.fontSize = Math.random() * 15 + 15 + 'px';
-            element.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            document.body.appendChild(element);
-
-            setTimeout(() => { element.remove(); }, 3500);
+            const x = (Math.random() - 0.5) * 400;
+            const y = (Math.random() - 0.5) * 400;
+            
+            sparkle.style.setProperty('--x', `${x}px`);
+            sparkle.style.setProperty('--y', `${y}px`);
+            sparkle.style.left = '50%';
+            sparkle.style.top = '50%';
+            sparkle.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            
+            document.querySelector('.card').appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
         }
     </script>
 </body>
