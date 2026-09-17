@@ -19,117 +19,84 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: radial-gradient(circle at center, #2d0b1e 0%, #0f040a 100%);
+            background: #0a0408;
             overflow: hidden;
             position: relative;
         }
 
-        /* پاشخانی بارینی دڵەکان */
-        .hearts-bg {
+        /* رووناکی هێمن و شیک لە پاشخان */
+        .bg-glow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 75, 110, 0.18) 0%, rgba(100, 15, 45, 0.08) 50%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            filter: blur(60px);
             z-index: 1;
         }
 
-        .falling-heart {
-            position: absolute;
-            color: rgba(255, 75, 110, 0.35);
-            font-size: 20px;
-            animation: fallAndRotate 6s linear infinite;
-        }
-
-        @keyframes fallAndRotate {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* کارتی شوشەیی */
+        /* کارتی شوشەیی مینیمال */
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 182, 193, 0.2);
-            padding: 50px 35px 40px;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 55px 40px 45px;
+            border-radius: 28px;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 105, 180, 0.1);
-            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+            max-width: 440px;
             width: 88%;
             z-index: 10;
             position: relative;
-            transition: all 0.5s ease;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #ff4b6e, transparent, #ff85a2);
-            border-radius: 32px;
-            z-index: -1;
-            opacity: 0.3;
         }
 
         /* کۆنتڕۆڵی دەنگ */
         .audio-control {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            width: 45px;
-            height: 45px;
+            top: 22px;
+            right: 22px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 17px;
             color: white;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 75, 110, 0.2);
         }
 
         .audio-control:hover {
-            transform: scale(1.15) rotate(15deg);
-            background: rgba(255, 75, 110, 0.3);
+            background: rgba(255, 75, 110, 0.2);
+            transform: scale(1.08);
         }
 
-        /* ئایکۆنی لێدانی دڵ */
         .heart-icon {
-            font-size: 70px;
+            font-size: 60px;
             display: inline-block;
-            margin-bottom: 15px;
-            animation: heartbeat 1.4s ease-in-out infinite;
-            filter: drop-shadow(0 0 15px rgba(255, 75, 110, 0.6));
-        }
-
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.18); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.18); }
-            70% { transform: scale(1); }
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(255, 75, 110, 0.4));
         }
 
         h2 {
             color: #ffffff;
-            margin-bottom: 15px;
-            font-size: 28px;
+            margin-bottom: 18px;
+            font-size: 26px;
             font-weight: 800;
             letter-spacing: 0.5px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         p {
-            color: #f1d6e3;
-            font-size: 17px;
-            margin-bottom: 35px;
+            color: #e5d2dc;
+            font-size: 16.5px;
+            margin-bottom: 38px;
             line-height: 1.9;
             font-weight: 300;
         }
@@ -145,8 +112,8 @@
         }
 
         button {
-            padding: 14px 38px;
-            font-size: 17px;
+            padding: 14px 40px;
+            font-size: 16.5px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -155,40 +122,28 @@
         }
 
         .btn-yes {
-            background: linear-gradient(135deg, #ff4b6e 0%, #ff758c 100%);
+            background: linear-gradient(135deg, #ff4b6e 0%, #e63956 100%);
             color: white;
-            box-shadow: 0 10px 25px rgba(255, 75, 110, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 75, 110, 0.3);
         }
 
         .btn-yes:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(255, 75, 110, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 75, 110, 0.45);
         }
 
         .btn-no {
-            background: rgba(255, 255, 255, 0.08);
-            color: #e0d0d8;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            color: #d1c0c9;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             position: absolute;
             backdrop-filter: blur(5px);
-        }
-
-        /* ئاهەنگگێڕانی وەڵامی بەڵێ */
-        .sparkle {
-            position: absolute;
-            pointer-events: none;
-            animation: popAndFade 2s ease-out forwards;
-        }
-
-        @keyframes popAndFade {
-            0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="hearts-bg" id="heartsBg"></div>
+    <div class="bg-glow"></div>
 
     <audio id="bgMusic" src="ewini be kota.mp3" loop autoplay preload="auto"></audio>
 
@@ -196,7 +151,7 @@
         <div class="audio-control" id="audioBtn" onclick="toggleMusic()">🎵</div>
 
         <div id="cardContent">
-            <div class="heart-icon">💖</div>
+            <div class="heart-icon">💌</div>
             <h2>نامەیەکی تایبەت</h2>
             <p>سڵاو دینی...<br>نامەیەکی کورت لە دڵمەوە بۆ تۆ، تکایە بیکەرەوە.</p>
             <div class="btn-container">
@@ -209,21 +164,6 @@
         const music = document.getElementById('bgMusic');
         const audioBtn = document.getElementById('audioBtn');
 
-        // دروستکردنی بارینی دڵەکان
-        const heartsBg = document.getElementById('heartsBg');
-        const heartIcons = ['🌸', '💖', '✨', '💕', '🌷'];
-        for (let i = 0; i < 30; i++) {
-            const h = document.createElement('div');
-            h.classList.add('falling-heart');
-            h.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            h.style.animationDelay = Math.random() * 5 + 's';
-            h.style.fontSize = (Math.random() * 12 + 16) + 'px';
-            heartsBg.appendChild(h);
-        }
-
-        // کارکردنی دەنگ بە کلیک
         document.body.addEventListener('click', () => {
             if (music.paused) {
                 music.play();
@@ -287,29 +227,6 @@
                 <h2>سوپاس بۆ بوونت...</h2>
                 <p>بەڵێن بێت نەهێڵم پەشیمان ببیتەوە 💍🌸</p>
             `;
-
-            // ئەنیمەیشنی بڵاوبوونەوەی دڵەکان لە سەرتاسەری لاپەڕەکە
-            for(let i = 0; i < 50; i++) {
-                setTimeout(createSparkle, i * 40);
-            }
-        }
-
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.innerText = ['💖', '🌸', '✨', '💍', '❤️'][Math.floor(Math.random() * 5)];
-            
-            const x = (Math.random() - 0.5) * 400;
-            const y = (Math.random() - 0.5) * 400;
-            
-            sparkle.style.setProperty('--x', `${x}px`);
-            sparkle.style.setProperty('--y', `${y}px`);
-            sparkle.style.left = '50%';
-            sparkle.style.top = '50%';
-            sparkle.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            
-            document.querySelector('.card').appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 2000);
         }
     </script>
 </body>
