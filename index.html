@@ -75,15 +75,17 @@
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 40px 25px 35px;
+            padding: 35px 22px 30px;
             border-radius: 28px;
             text-align: center;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-            width: 88%;
-            max-width: 380px;
+            width: 90%;
+            max-width: 400px;
             z-index: 10;
             position: relative;
             margin: auto;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         /* کۆنتڕۆڵی دەنگ */
@@ -110,25 +112,39 @@
         }
 
         .heart-icon {
-            font-size: 55px;
+            font-size: 50px;
             display: inline-block;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             filter: drop-shadow(0 0 10px rgba(255, 75, 110, 0.4));
         }
 
         h2 {
             color: #ffffff;
             margin-bottom: 14px;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
         }
 
         p {
             color: #e5d2dc;
-            font-size: 15.5px;
-            margin-bottom: 30px;
+            font-size: 14.5px;
+            margin-bottom: 25px;
             line-height: 1.8;
             font-weight: 300;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* ئەنیمەیشنی تایپکردنی ناوەکان */
+        .dynamic-name {
+            color: #ff4b6e;
+            border-left: 2px solid #ff4b6e;
+            padding-left: 3px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
         }
 
         /* دوگمەکان */
@@ -183,7 +199,7 @@
         <div id="cardContent">
             <div class="heart-icon">💌</div>
             <h2>نامەیەکی تایبەت</h2>
-            <p>سڵاو دینی...<br>نامەیەکی کورت لە دڵمەوە بۆ تۆ، تکایە بیکەرەوە.</p>
+            <p style="text-align: center;">دۆرا بەدڵێکی گەورەوە وەری گرە</p>
             <div class="btn-container">
                 <button class="btn-yes" onclick="nextStep1()">بیکەرەوە ✨</button>
             </div>
@@ -195,7 +211,6 @@
         const audioBtn = document.getElementById('audioBtn');
         const starsContainer = document.getElementById('starsContainer');
 
-        // دروستکردنی 50 ئەستێرەی درەوشاوە لە پاشخان
         for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
@@ -226,29 +241,85 @@
             }
         }
 
+        let loopIntervals = [];
+
+        function clearAllIntervals() {
+            loopIntervals.forEach(id => clearTimeout(id));
+            loopIntervals = [];
+        }
+
+        function startNameLoopMulti(elementIds) {
+            clearAllIntervals();
+            const names = ["دینی", "دۆرا"];
+            let nameIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentName = names[nameIndex];
+
+                elementIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        if (isDeleting) {
+                            el.textContent = currentName.substring(0, charIndex - 1);
+                        } else {
+                            el.textContent = currentName.substring(0, charIndex + 1);
+                        }
+                    }
+                });
+
+                if (isDeleting) {
+                    charIndex--;
+                } else {
+                    charIndex++;
+                }
+
+                let speed = isDeleting ? 100 : 150;
+
+                if (!isDeleting && charIndex === currentName.length) {
+                    speed = 1800;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    nameIndex = (nameIndex + 1) % names.length;
+                    speed = 400;
+                }
+
+                const timer = setTimeout(type, speed);
+                loopIntervals.push(timer);
+            }
+
+            type();
+        }
+
         function nextStep1() {
             if (music.paused) music.play();
 
             document.getElementById('cardContent').innerHTML = `
                 <div class="heart-icon">📜</div>
-                <h2>بۆ تۆ، کە هەموو دنیای منی...</h2>
-                <p>تۆ تەنها سەرەتایەک نیت بۆ ژیانم، تۆ جوانترین پارچەی تەمەنی منیت. لەو ڕۆژەوەی هاتووی، دڵم ئارامترە و داهاتووم ڕووناکترە. هەمیشە خەونی من ئەوە بووە کە قەشەنگترین چیرۆکی عەشق پێکەوە بنووسینەوە...</p>
+                <h2>نامەیەک بۆ <span id="changingName1" class="dynamic-name"></span></h2>
+                <p>ئەزانم کە ئەمە زۆر لە پڕێکایە کە من داواکاری شتێکی وات لێ ئەکەم بەس من زۆر دەمێکەیە کە ئەمویست پێت بڵێم بەڵام هەرچیەکم ئەکرد نەم ئەتوانی، هەرچەنە لەوانەیە تۆ بڵێ کە من هیچم نەکردوە کەوا دەر بکەوێ بەس من چەنجارێک هەڵوم یاوە کە ئەگەر بۆ تۆزێکیش بوبێت خۆمت لێ نزیک بکەمەوە بەس هەموو جارێکیش فەشەلم هێناوە جا ئێستا نازانم کە ئایە ئەمە شێوازێکی گونجاوە یان نا بۆ دەر بڕینی هەستەکانم بۆ تۆ، هەرچەنە هیچ وشەیەکم پێنیە کە بتوانێت وەسفی هەستەکانم بکات بۆتۆ، وە هیوادارن ئەگەر بۆ تۆزێکیش بێت بیری لێ بکەیتەوە کە شایەنی ئەوەبم هەڵێکم پێ بدرێت.</p>
                 <div class="btn-container">
                     <button class="btn-yes" onclick="nextStep2()">هەنگاوی داهاتوو 💍</button>
                 </div>
             `;
+
+            startNameLoopMulti(["changingName1"]);
         }
 
         function nextStep2() {
             document.getElementById('cardContent').innerHTML = `
                 <div class="heart-icon">💍</div>
-                <h2>دینی، دەبیت بە هاوسەری ژیانم؟</h2>
-                <p>پێش ئەوەی وەڵام بدەیتەوە، باش بیر بکەرەوە! چونکە دڵم بڕیاری خۆی داوە...</p>
+                <h2><span id="changingNameTitle" class="dynamic-name"></span>، دەبیت بە هاوسەری ژیانم؟</h2>
+                <p><span id="changingNameBody" class="dynamic-name"></span> پێش ئەوەی جوابم بەیتەوە بیری لێ بکەرەوە ئەگەر بۆ کەمێکیش بێت، یان هەر کاتێک ویستت ئەوکاتە جوابم بەرەوە من ٣ ساڵ چاوەڕێم کرد تا بتوانم ئەمەت پێ بڵێم ماوەیەکی تریش چاوەڕێ ئەکەم.</p>
                 <div class="btn-container" id="quizContainer">
                     <button class="btn-yes" onclick="accepted()">بەڵێ 💖</button>
                     <button class="btn-no" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">نەخێر</button>
                 </div>
             `;
+
+            startNameLoopMulti(["changingNameTitle", "changingNameBody"]);
         }
 
         function moveButton() {
@@ -265,12 +336,13 @@
         }
 
         function accepted() {
+            clearAllIntervals();
             if (music.paused) music.play();
             
             document.getElementById('cardContent').innerHTML = `
-                <div class="heart-icon">👑</div>
-                <h2>سوپاس بۆ بوونت...</h2>
-                <p>بەڵێن بێت نەهێڵم پەشیمان ببیتەوە 💍🌸</p>
+                <div class="heart-icon">🌸</div>
+                <h2>سپاس بۆ ئەو هەلەی کە پێت یام</h2>
+                <p style="text-align: center;">بەڵێن بێت نەهێڵم پەشیمان ببیتەوە 💍🌸</p>
             `;
         }
     </script>
