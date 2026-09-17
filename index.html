@@ -131,7 +131,6 @@
             text-align-last: center;
         }
 
-        /* شێوازی تایپکردنی ئاسایی بۆ سەردێڕەکان */
         .dynamic-name-type {
             color: #ff4b6e;
             border-left: 2px solid #ff4b6e;
@@ -143,7 +142,6 @@
             50% { border-color: transparent; }
         }
 
-        /* شێوازی Fade In / Fade Out بۆ ناوەکانی ناو ڕستەکان تا نەجوڵێن */
         .dynamic-name-fade {
             color: #ff4b6e;
             display: inline-block;
@@ -221,6 +219,15 @@
         const audioBtn = document.getElementById('audioBtn');
         const starsContainer = document.getElementById('starsContainer');
 
+        // پێدانی ڕێگەپێدانی سەرەتایی و لێدانی میوزیک ڕاستەوخۆ لەکاتی Load بوون
+        window.onload = function() {
+            music.play().then(() => {
+                audioBtn.innerText = '🎵';
+            }).catch(err => {
+                console.log("Autoplay is waiting or blocked by browser settings", err);
+            });
+        };
+
         for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
@@ -233,13 +240,6 @@
             star.style.animationDelay = (Math.random() * 3) + 's';
             starsContainer.appendChild(star);
         }
-
-        document.body.addEventListener('click', () => {
-            if (music.paused) {
-                music.play();
-                audioBtn.innerText = '🎵';
-            }
-        }, { once: true });
 
         function toggleMusic() {
             if (music.paused) {
@@ -261,7 +261,6 @@
             loopIntervals = [];
         }
 
-        /* تایپکردنی پیت بە پیت بۆ سەردێڕەکان */
         function startNameLoopType(elementIds) {
             clearAllIntervals();
             const names = ["دینی", "دۆرا"];
@@ -307,7 +306,6 @@
             type();
         }
 
-        /* گۆڕینی نەرمی Fade In/Out تەنها بۆ ناوی ناو دەقەکان */
         function startNameLoopFade(elementId) {
             const names = ["دینی", "دۆرا"];
             let nameIndex = 0;
@@ -329,12 +327,9 @@
             loopIntervals.push(mainInterval);
         }
 
-        // دەستپێکردن بە Fade In/Out بۆ ناوی سەر پەڕەی یەکەم
         startNameLoopFade("changingName0");
 
         function nextStep1() {
-            if (music.paused) music.play();
-
             document.getElementById('cardContent').innerHTML = `
                 <div class="heart-icon">📜</div>
                 <h2>نامەیەک بۆ <span id="changingName1" class="dynamic-name-type"></span></h2>
@@ -377,7 +372,6 @@
 
         function accepted() {
             clearAllIntervals();
-            if (music.paused) music.play();
             
             document.getElementById('cardContent').innerHTML = `
                 <div class="heart-icon">🌸</div>
