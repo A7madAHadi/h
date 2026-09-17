@@ -30,7 +30,6 @@
             align-items: center;
         }
 
-        /* درەوشانەوەی ئارامی پاشخان */
         .bg-glow {
             position: absolute;
             width: 320px;
@@ -45,7 +44,6 @@
             z-index: 1;
         }
 
-        /* کانتینەری ئەستێرە درەوشاوەکان */
         .stars-container {
             position: absolute;
             top: 0;
@@ -69,7 +67,6 @@
             50% { opacity: 0.95; transform: scale(1.2); }
         }
 
-        /* کارتی شوشەیی ناوەڕاست */
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(25px);
@@ -88,7 +85,6 @@
             overflow-y: auto;
         }
 
-        /* کۆنتڕۆڵی دەنگ */
         .audio-control {
             position: absolute;
             top: 18px;
@@ -135,19 +131,21 @@
             text-align-last: center;
         }
 
-        /* ئەنیمەیشنی تایپکردنی ناوەکان */
+        /* شێوازی گۆڕینی ناو بە Fade */
         .dynamic-name {
             color: #ff4b6e;
-            border-left: 2px solid #ff4b6e;
-            padding-left: 3px;
-            animation: blink 0.7s infinite;
+            display: inline-block;
+            min-width: 45px;
+            text-align: center;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+            font-weight: 600;
         }
 
-        @keyframes blink {
-            50% { border-color: transparent; }
+        .dynamic-name.fade-out {
+            opacity: 0;
         }
 
-        /* دوگمەکان */
         .btn-container {
             display: flex;
             justify-content: center;
@@ -199,7 +197,7 @@
         <div id="cardContent">
             <div class="heart-icon">💌</div>
             <h2>نامەیەکی تایبەت</h2>
-            <p style="text-align: center;">دۆرا بەدڵێکی گەورەوە وەری گرە</p>
+            <p style="text-align: center;"><span id="changingName0" class="dynamic-name"></span> بەدڵێکی گەورەوە وەری گرە</p>
             <div class="btn-container">
                 <button class="btn-yes" onclick="nextStep1()">بیکەرەوە ✨</button>
             </div>
@@ -244,54 +242,46 @@
         let loopIntervals = [];
 
         function clearAllIntervals() {
-            loopIntervals.forEach(id => clearTimeout(id));
+            loopIntervals.forEach(id => clearInterval(id));
             loopIntervals = [];
         }
 
-        function startNameLoopMulti(elementIds) {
+        function startNameLoopSmooth(elementIds) {
             clearAllIntervals();
             const names = ["دینی", "دۆرا"];
             let nameIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
 
-            function type() {
-                const currentName = names[nameIndex];
+            elementIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = names[0];
+            });
 
+            function switchName() {
                 elementIds.forEach(id => {
                     const el = document.getElementById(id);
-                    if (el) {
-                        if (isDeleting) {
-                            el.textContent = currentName.substring(0, charIndex - 1);
-                        } else {
-                            el.textContent = currentName.substring(0, charIndex + 1);
-                        }
-                    }
+                    if (el) el.classList.add('fade-out');
                 });
 
-                if (isDeleting) {
-                    charIndex--;
-                } else {
-                    charIndex++;
-                }
-
-                let speed = isDeleting ? 100 : 150;
-
-                if (!isDeleting && charIndex === currentName.length) {
-                    speed = 1800;
-                    isDeleting = true;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
+                const t1 = setTimeout(() => {
                     nameIndex = (nameIndex + 1) % names.length;
-                    speed = 400;
-                }
+                    elementIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) {
+                            el.textContent = names[nameIndex];
+                            el.classList.remove('fade-out');
+                        }
+                    });
+                }, 500);
 
-                const timer = setTimeout(type, speed);
-                loopIntervals.push(timer);
+                loopIntervals.push(t1);
             }
 
-            type();
+            const mainInterval = setInterval(switchName, 2500);
+            loopIntervals.push(mainInterval);
         }
+
+        // لە کاتی دەستپێکردندا بۆ پەڕەی یەکەم چالاک دەبێت
+        startNameLoopSmooth(["changingName0"]);
 
         function nextStep1() {
             if (music.paused) music.play();
@@ -305,7 +295,7 @@
                 </div>
             `;
 
-            startNameLoopMulti(["changingName1"]);
+            startNameLoopSmooth(["changingName1"]);
         }
 
         function nextStep2() {
@@ -319,7 +309,7 @@
                 </div>
             `;
 
-            startNameLoopMulti(["changingNameTitle", "changingNameBody"]);
+            startNameLoopSmooth(["changingNameTitle", "changingNameBody"]);
         }
 
         function moveButton() {
