@@ -114,6 +114,14 @@
             filter: drop-shadow(0 0 10px rgba(255, 75, 110, 0.4));
         }
 
+        .dora-img {
+            width: 85px;
+            height: auto;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 12px rgba(255, 75, 110, 0.45));
+            display: inline-block;
+        }
+
         h2 {
             color: #ffffff;
             margin-bottom: 14px;
@@ -199,17 +207,17 @@
     <div class="bg-glow"></div>
     <div class="stars-container" id="starsContainer"></div>
 
-    <audio id="bgMusic" src="ewini be kota.mp3" loop autoplay preload="auto"></audio>
+    <audio id="bgMusic" src="ewini be kota.mp3" loop preload="auto"></audio>
 
     <div class="card">
-        <div class="audio-control" id="audioBtn" onclick="toggleMusic()">🎵</div>
+        <div class="audio-control" id="audioBtn" onclick="toggleMusic()">🔇</div>
 
         <div id="cardContent">
             <div class="heart-icon">💌</div>
             <h2>نامەیەکی تایبەت</h2>
             <p style="text-align: center;"><span id="changingName0" class="dynamic-name-fade"></span> بەدڵێکی گەورەوە وەری گرە</p>
             <div class="btn-container">
-                <button class="btn-yes" onclick="nextStep1()">بیکەرەوە ✨</button>
+                <button class="btn-yes" onclick="startExperience()">بیکەرەوە ✨</button>
             </div>
         </div>
     </div>
@@ -218,15 +226,6 @@
         const music = document.getElementById('bgMusic');
         const audioBtn = document.getElementById('audioBtn');
         const starsContainer = document.getElementById('starsContainer');
-
-        // پێدانی ڕێگەپێدانی سەرەتایی و لێدانی میوزیک ڕاستەوخۆ لەکاتی Load بوون
-        window.onload = function() {
-            music.play().then(() => {
-                audioBtn.innerText = '🎵';
-            }).catch(err => {
-                console.log("Autoplay is waiting or blocked by browser settings", err);
-            });
-        };
 
         for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
@@ -239,6 +238,12 @@
             star.style.setProperty('--duration', (Math.random() * 3 + 1.5) + 's');
             star.style.animationDelay = (Math.random() * 3) + 's';
             starsContainer.appendChild(star);
+        }
+
+        function playMusic() {
+            music.play().then(() => {
+                audioBtn.innerText = '🎵';
+            }).catch(() => {});
         }
 
         function toggleMusic() {
@@ -329,9 +334,14 @@
 
         startNameLoopFade("changingName0");
 
+        function startExperience() {
+            playMusic();
+            nextStep1();
+        }
+
         function nextStep1() {
             document.getElementById('cardContent').innerHTML = `
-                <div class="heart-icon">📜</div>
+                <img src="dora.png" alt="Dora" class="dora-img">
                 <h2>نامەیەک بۆ <span id="changingName1" class="dynamic-name-type"></span></h2>
                 <p>ئەزانم کە ئەمە زۆر لە پڕێکایە کە من داواکاری شتێکی وات لێ ئەکەم بەس من زۆر دەمێکەیە کە ئەمویست پێت بڵێم بەڵام هەرچیەکم ئەکرد نەم ئەتوانی، هەرچەنە لەوانەیە تۆ بڵێ کە من هیچم نەکردوە کەوا دەر بکەوێ بەس من چەنجارێک هەڵوم یاوە کە ئەگەر بۆ تۆزێکیش بوبێت خۆمت لێ نزیک بکەمەوە بەس هەموو جارێکیش فەشەلم هێناوە جا ئێستا نازانم کە ئایە ئەمە شێوازێکی گونجاوە یان نا بۆ دەر بڕینی هەستەکانم بۆ تۆ، هەرچەنە هیچ وشەیەکم پێنیە کە بتوانێت وەسفی هەستەکانم بکات بۆتۆ، وە هیوادارن ئەگەر بۆ تۆزێکیش بێت بیری لێ بکەیتەوە کە شایەنی ئەوەبم هەڵێکم پێ بدرێت.</p>
                 <div class="btn-container">
