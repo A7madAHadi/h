@@ -131,7 +131,7 @@
             text-align-last: center;
         }
 
-        /* تایپکردنی ئاسایی (Typewriter) */
+        /* شێوازی تایپکردنی ئاسایی بۆ سەردێڕەکان */
         .dynamic-name-type {
             color: #ff4b6e;
             border-left: 2px solid #ff4b6e;
@@ -143,7 +143,7 @@
             50% { border-color: transparent; }
         }
 
-        /* تایبەت بە پەرەگرافەکە بۆ ئەوەی ڕستەکانی تر نەجوڵێن (Fade) */
+        /* شێوازی Fade In / Fade Out بۆ ناوەکانی ناو ڕستەکان تا نەجوڵێن */
         .dynamic-name-fade {
             color: #ff4b6e;
             display: inline-block;
@@ -209,7 +209,7 @@
         <div id="cardContent">
             <div class="heart-icon">💌</div>
             <h2>نامەیەکی تایبەت</h2>
-            <p style="text-align: center;"><span id="changingName0" class="dynamic-name-type"></span> بەدڵێکی گەورەوە وەری گرە</p>
+            <p style="text-align: center;"><span id="changingName0" class="dynamic-name-fade"></span> بەدڵێکی گەورەوە وەری گرە</p>
             <div class="btn-container">
                 <button class="btn-yes" onclick="nextStep1()">بیکەرەوە ✨</button>
             </div>
@@ -261,7 +261,7 @@
             loopIntervals = [];
         }
 
-        /* تایپکردنی پیت بە پیت بۆ سەردێڕەکان و پەڕەی یەکەم */
+        /* تایپکردنی پیت بە پیت بۆ سەردێڕەکان */
         function startNameLoopType(elementIds) {
             clearAllIntervals();
             const names = ["دینی", "دۆرا"];
@@ -307,7 +307,7 @@
             type();
         }
 
-        /* گۆڕینی نەرمی Fade تەنها بۆ ناوی ناو پەرەگرافەکە */
+        /* گۆڕینی نەرمی Fade In/Out تەنها بۆ ناوی ناو دەقەکان */
         function startNameLoopFade(elementId) {
             const names = ["دینی", "دۆرا"];
             let nameIndex = 0;
@@ -329,8 +329,8 @@
             loopIntervals.push(mainInterval);
         }
 
-        // پەڕەی سەرەتا بە تایپکردن
-        startNameLoopType(["changingName0"]);
+        // دەستپێکردن بە Fade In/Out بۆ ناوی سەر پەڕەی یەکەم
+        startNameLoopFade("changingName0");
 
         function nextStep1() {
             if (music.paused) music.play();
