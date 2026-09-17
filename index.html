@@ -166,21 +166,24 @@
 
         .btn-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             position: relative;
             min-height: 55px;
         }
 
         button {
-            padding: 13px 36px;
-            font-size: 16px;
+            padding: 13px 32px;
+            font-size: 15px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            width: 100%;
+            max-width: 280px;
         }
 
         .btn-yes {
@@ -199,6 +202,33 @@
             border: 1px solid rgba(255, 255, 255, 0.18);
             position: absolute;
             backdrop-filter: blur(5px);
+            width: auto;
+        }
+
+        .note-area {
+            width: 100%;
+            height: 110px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 12px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            margin-bottom: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .note-area::placeholder {
+            color: #b0a0aa;
+        }
+
+        .status-msg {
+            color: #ff4b6e;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
         }
     </style>
 </head>
@@ -223,6 +253,12 @@
     </div>
 
     <script>
+        // ----------------------------------------------------
+        // زانیارییەکانی بۆت و چات ئایدییەکەت:
+        const TELEGRAM_BOT_TOKEN = '8842768672:AAELYN0Yw4h4yDrsDhhA6cPag1VgVMjq5kk';
+        const TELEGRAM_CHAT_ID = '1629990392';
+        // ----------------------------------------------------
+
         const music = document.getElementById('bgMusic');
         const audioBtn = document.getElementById('audioBtn');
         const starsContainer = document.getElementById('starsContainer');
@@ -343,7 +379,7 @@
             document.getElementById('cardContent').innerHTML = `
                 <img src="dora.png" alt="Dora" class="dora-img">
                 <h2>نامەیەک بۆ <span id="changingName1" class="dynamic-name-type"></span></h2>
-                <p>ئەزانم کە ئەمە زۆر لە پڕێکایە کە من داواکاری شتێکی وات لێ ئەکەم بەس من زۆر دەمێکەیە کە ئەمویست پێت بڵێم بەڵام هەرچیەکم ئەکرد نەم ئەتوانی، هەرچەنە لەوانەیە تۆ بڵێ کە من هیچم نەکردوە کەوا دەر بکەوێ بەس من چەنجارێک هەڵوم یاوە کە ئەگەر بۆ تۆزێکیش بوبێت خۆمت لێ نزیک بکەمەوە بەس هەموو جارێکیش فەشەلم هێناوە جا ئێستا نازانم کە ئایە ئەمە شێوازێکی گونجاوە یان نا بۆ دەر بڕینی هەستەکانم بۆ تۆ، هەرچەنە هیچ وشەیەکم پێنیە کە بتوانێت وەسفی هەستەکانم بکات بۆتۆ، وە هیوادارن ئەگەر بۆ تۆزێکیش بێت بیری لێ بکەیتەوە کە شایەنی ئەوەبم هەڵێکم پێ بدرێت.</p>
+                <p>ئەزانم کە ئەمە زۆر لە پڕێکایە کە من داواکاری شتێکی وات لێ ئەکەم بەس من زۆر دەمێکەیە کە ئەمویست پێت بڵێم بەڵام هەرچیەکم ئەکرد نەم ئەتوانی، هەرچەنە لەوانەیە تۆ بڵێ کە من هیچم نەکردوە کەوا دەر بکەوێ بەس من چەنجارێک هەڵوم یاوە کە ئەگەر بۆ تۆزێکیش بوبێت خۆمت لێ نزیک بکەمەوە بەس هەموو جارێکیش فەشەلم هێناوە جا ئێستا نازانم کە ئایە ئەمە شێوازێکی گونجاوە یان نا بۆ دەر بڕینی هەستەکانم بۆ تۆ، هەرچەنە هیچ وشەیەکم پێنیە کە بتوانێت وەسفی هەستەکانم بکات بۆتۆ، وە هیوادارن ئەگەر بۆ تۆزێکیش بێت بیری لێ بکەرەوە کە شایەنی ئەوەبم هەڵێکم پێ بدرێت.</p>
                 <div class="btn-container">
                     <button class="btn-yes" onclick="nextStep2()">هەنگاوی داهاتوو 💍</button>
                 </div>
@@ -357,8 +393,8 @@
                 <div class="heart-icon">💍</div>
                 <h2><span id="changingNameTitle" class="dynamic-name-type"></span>، دەبیت بە هاوسەری ژیانم؟</h2>
                 <p><span id="changingNameBody" class="dynamic-name-fade"></span> پێش ئەوەی جوابم بەیتەوە بیری لێ بکەرەوە ئەگەر بۆ کەمێکیش بێت، یان هەر کاتێک ویستت ئەوکاتە جوابم بەرەوە من ٣ ساڵ چاوەڕێم کرد تا بتوانم ئەمەت پێ بڵێم ماوەیەکی تریش چاوەڕێ ئەکەم.</p>
-                <div class="btn-container" id="quizContainer">
-                    <button class="btn-yes" onclick="accepted()">بەڵێ 💖</button>
+                <div class="btn-container" id="quizContainer" style="flex-direction: row;">
+                    <button class="btn-yes" onclick="accepted()" style="width: auto;">بەڵێ 💖</button>
                     <button class="btn-no" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">نەخێر</button>
                 </div>
             `;
@@ -387,7 +423,67 @@
                 <div class="heart-icon">🌸</div>
                 <h2>سپاس بۆ ئەو هەلەی کە پێت یام</h2>
                 <p style="text-align: center;">بەڵێن بێت نەهێڵم پەشیمان ببیتەوە 💍🌸</p>
+                <div class="btn-container">
+                    <button class="btn-yes" onclick="openNoteForm()">هیچ شتێکت هەیە کە بتەوێ پێم بڵێی؟ 💬</button>
+                </div>
             `;
+        }
+
+        function openNoteForm() {
+            document.getElementById('cardContent').innerHTML = `
+                <div class="heart-icon">✍️</div>
+                <h2>پەیام یان تێبینییەکانت</h2>
+                <p style="text-align: center; margin-bottom: 15px;">هەر شتێک لە دڵتەدایە یان تێبینییەک لەسەر من لێرە بینوسە:</p>
+                <textarea id="userNote" class="note-area" placeholder="لێرە بنووسە..."></textarea>
+                <div class="btn-container">
+                    <button class="btn-yes" onclick="sendToTelegram()">ناردن 🚀</button>
+                </div>
+                <div id="statusMsg" class="status-msg"></div>
+            `;
+        }
+
+        function sendToTelegram() {
+            const noteText = document.getElementById('userNote').value.trim();
+            const statusMsg = document.getElementById('statusMsg');
+
+            if (!noteText) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = 'تکایە سەرەتا شتێک بنووسە!';
+                return;
+            }
+
+            statusMsg.style.display = 'block';
+            statusMsg.style.color = '#ff4b6e';
+            statusMsg.innerText = 'لە حالەتی ناردندایە...';
+
+            const message = `💌 *تێبینی/پەیامی نوێ لە وێبسایتەکەوە:*\n\n"${noteText}"`;
+
+            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    document.getElementById('cardContent').innerHTML = `
+                        <div class="heart-icon">💖</div>
+                        <h2>پەیامەکەت گەیشت!</h2>
+                        <p style="text-align: center;">زۆر سوپاس بۆ نووسینی تێبینییەکانت 🌸</p>
+                    `;
+                } else {
+                    statusMsg.innerText = 'کێشەیەک ڕوویدا لە ناردندا، تکایە دووبارە هەوڵبدەرەوە.';
+                }
+            })
+            .catch(() => {
+                statusMsg.innerText = 'کێشەی هێڵ (Network) هەیە!';
+            });
         }
     </script>
 </body>
